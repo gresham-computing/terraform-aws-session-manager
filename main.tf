@@ -41,6 +41,10 @@ resource "aws_ssm_document" "session_manager_prefs" {
       cloudWatchEncryptionEnabled = var.enable_log_to_cloudwatch ? true : false
       kmsKeyId                    = aws_kms_key.ssmkey.key_id
       idleSessionTimeout = "20"
+      runAsEnabled                = var.run_as_enabled
+      runAsDefaultUser            = var.run_as_user
+      idleSessionTimeout          = var.idle_session_timeout
+      maxSessionDuration          = var.max_session_duration
       shellProfile = {
         linux   = var.linux_shell_profile == "" ? "" : var.linux_shell_profile
         windows = var.windows_shell_profile == "" ? "" : var.windows_shell_profile
