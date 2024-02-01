@@ -103,3 +103,27 @@ variable "windows_shell_profile" {
   default     = ""
   type        = string
 }
+
+variable "idle_session_timeout" {
+  type        = number
+  default     = 40
+  description = "Time until a session is closed when left idle."
+}
+
+variable "max_session_duration" {
+  type        = number
+  default     = 600
+  description = "The longest a session can stay open before it will be closed."
+}
+
+variable "run_as_enabled" {
+  type        = bool
+  default     = true
+  description = "Enables the option to start sessions using the credentials of a specified operating system user."
+}
+
+variable "run_as_user" {
+  type        = string
+  default     = "ubuntu"
+  description = "Sets the run as user to a specified operating system user."
+}
