@@ -68,6 +68,12 @@ variable "subnet_ids" {
   default     = []
 }
 
+variable "policy" {
+  description = "A valid IAM policy JSON document."
+  type        = string
+  default     = null
+}
+
 variable "vpc_endpoint_private_dns_enabled" {
   description = "Enable private dns for endpoints"
   type        = bool
