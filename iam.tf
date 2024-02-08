@@ -135,10 +135,10 @@ resource "aws_iam_policy" "ssm_s3_cwl_access" {
 }
 
 resource "aws_iam_policy" "ssm_environment_specific_access" {
-  count  = var.policy != null && var.policy != "" ? 1 : 0
+  count  = var.default_host_policy != null && var.default_host_policy != "" ? 1 : 0
   name   = "ssm_environment_specific_access-${local.region}"
   path   = "/"
-  policy = var.policy
+  policy = var.default_host_policy
 }
 
 resource "aws_iam_role_policy_attachment" "SSM-role-policy-attach" {
@@ -152,7 +152,7 @@ resource "aws_iam_role_policy_attachment" "SSM-s3-cwl-policy-attach" {
 }
 
 resource "aws_iam_role_policy_attachment" "SSM-s3-cwl-policy-attach" {
-  count  = var.policy != null && var.policy != "" ? 1 : 0
+  count  = var.default_host_policy != null && var.default_host_policy != "" ? 1 : 0
 
   role       = aws_iam_role.ssm_role.name
   policy_arn = aws_iam_policy.ssm_environment_specific_access[0].arn
