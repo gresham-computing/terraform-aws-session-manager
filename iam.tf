@@ -151,7 +151,7 @@ resource "aws_iam_role_policy_attachment" "SSM-s3-cwl-policy-attach" {
   policy_arn = aws_iam_policy.ssm_s3_cwl_access.arn
 }
 
-resource "aws_iam_role_policy_attachment" "SSM-s3-cwl-policy-attach" {
+resource "aws_iam_role_policy_attachment" "SSM-env-specific-policy-attach" {
   count  = var.default_host_policy != null && var.default_host_policy != "" ? 1 : 0
 
   role       = aws_iam_role.ssm_role.name
