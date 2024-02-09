@@ -68,6 +68,12 @@ variable "subnet_ids" {
   default     = []
 }
 
+variable "default_host_policy" {
+  description = "A valid IAM policy JSON document to attach to the default IAM role created by the Default Host Management Configuration."
+  type        = string
+  default     = null
+}
+
 variable "vpc_endpoint_private_dns_enabled" {
   description = "Enable private dns for endpoints"
   type        = bool

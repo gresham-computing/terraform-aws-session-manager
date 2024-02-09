@@ -104,6 +104,7 @@ data "aws_iam_policy_document" "ssm_s3_cwl_access" {
     sid = "CloudWatchLogsAccessForSessionManager"
 
     actions = [
+      "logs:CreateLogGroup",
       "logs:PutLogEvents",
       "logs:CreateLogStream",
       "logs:DescribeLogGroups",
@@ -133,6 +134,13 @@ resource "aws_iam_policy" "ssm_s3_cwl_access" {
   policy = data.aws_iam_policy_document.ssm_s3_cwl_access.json
 }
 
+resource "aws_iam_policy" "ssm_environment_specific_access" {
+  count  = var.default_host_policy != null && var.default_host_policy != "" ? 1 : 0
+  name   = "ssm_environment_specific_access-${local.region}"
+  path   = "/"
+  policy = var.default_host_policy
+}
+
 resource "aws_iam_role_policy_attachment" "SSM-role-policy-attach" {
   role       = aws_iam_role.ssm_role.name
   policy_arn = data.aws_iam_policy.AmazonSSMManagedInstanceCore.arn
@@ -141,6 +149,13 @@ resource "aws_iam_role_policy_attachment" "SSM-role-policy-attach" {
 resource "aws_iam_role_policy_attachment" "SSM-s3-cwl-policy-attach" {
   role       = aws_iam_role.ssm_role.name
   policy_arn = aws_iam_policy.ssm_s3_cwl_access.arn
+}
+
+resource "aws_iam_role_policy_attachment" "SSM-env-specific-policy-attach" {
+  count  = var.default_host_policy != null && var.default_host_policy != "" ? 1 : 0
+
+  role       = aws_iam_role.ssm_role.name
+  policy_arn = aws_iam_policy.ssm_environment_specific_access[0].arn
 }
 
 resource "aws_iam_instance_profile" "ssm_profile" {
