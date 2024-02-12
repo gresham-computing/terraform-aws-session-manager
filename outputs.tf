@@ -18,8 +18,12 @@ output "iam_role_arn" {
   value = aws_iam_role.ssm_role.arn
 }
 
-output "iam_policy_arn" {
+output "iam_cwl_access_policy_arn" {
   value = aws_iam_policy.ssm_s3_cwl_access.arn
+}
+
+output "iam_environment_specific_policy_arn" {
+  value = var.default_host_policy != null && var.default_host_policy != "" ? aws_iam_policy.ssm_environment_specific_access[0].arn : null
 }
 
 output "iam_profile_name" {
