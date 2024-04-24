@@ -126,6 +126,16 @@ data "aws_iam_policy_document" "ssm_s3_cwl_access" {
 
     resources = [aws_kms_key.ssmkey.arn]
   }
+
+  statement {
+    sid = "SecretsManagerAccessForSessionManager"
+
+    actions = [
+      "secretsmanager:GetSecretValue"
+    ]
+
+    resources = ["arn:aws:secretsmanager:*:*:secret:control/*"]
+  }
 }
 
 resource "aws_iam_policy" "ssm_s3_cwl_access" {
